@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/icon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16x16.png">
+  <link rel="manifest" href="/icon/site.webmanifest">
+  <link rel="stylesheet" href="/css/profile.css">
+  <title>My Profile</title>
+  <style>
+
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="content">
+      <div class="logo">
+        <i class="fa-solid fa-camera camera"></i>
+        <a href="/about"><span class="ceg">CEG</span> Confum</a>
+      </div>
+      <ul class="menu-list">
+        <div class="icon cancel-btn">
+          <i class="fas fa-times"></i>
+        </div>
+        <li><a href="/home">Home</a></li>
+        <li><a href="/confession">Confession</a></li>
+        <li><a href="/memory">Memory</a></li>
+        <li><a href="/logout">Log Out</a></li>
+      </ul>
+      <div class="icon menu-btn">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </nav>
+
+  <% const rand = Math.floor((Math.random() * 15) + 1) %>
+
+  <% if(success && success.length){ %>
+  <div class="success">
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <%= success %>
+  </div>
+  <% } %>
+
+  <% if(error && error.length){ %>
+  <div class="alert">
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <%= error %>
+  </div>
+  <% } %>
+
+  <figure class="snip1336">
+    <img src=<%= `/images/random/${rand}.jpg` %> alt="image" class="image-profile">
+    <figcaption>
+      <img src="/images/profile-icon.jpg" alt="profile-icon" class="profile" />
+      <h2 class="h2"><%= `${data.user.firstname} ${data.user.lastname}`%></h2>
+      <p style="color: rgb(97, 97, 255)"><%= data.user.username %></p>
+      <p><%= data.user.tag %> Tag, <%= data.user.dept  %> </p>
+      <p>Date of Birth: <%= data.user.dob %></p>
+      <p class="profile-description"><%= data.user.description  %> </p>
+      <a href="/confession/<%= id %>">Back</a>
+    </figcaption>
+  </figure>
+
+  <div class="footer">
+    <div class="left-footer">
+      <p class="aboutf">About</p>
+      <p class="summary">CCM is a intra-college social media app which is developed by our very own students for
+        the
+        empowerment of senior-junior bonds and most importatly to kill time.</p>
+      <p class="creators">Creators</p>
+      <ul class="creators-name">
+        <li><a href="">Narendran</a></li>
+        <li><a href="">Padma sharan</a></li>
+        <li><a href="">Parithi</a></li>
+      </ul>
+    </div>
+    <div class="right-footer">
+      <p class="logof">
+        <i class="fa-solid fa-camera cameraf"></i>
+        <span class="ceg">CEG</span> Confum
+      </p>
+      <p><b>Follow us on</b></p>
+      <p class="social">
+        <a href="">Facebook</a>.<a href="">Instagram</a>.<a href="">Twitter</a>
+      </p>
+    </div>
+  </div>
+  <script>
+    const body = document.querySelector("body");
+    const navbar = document.querySelector(".navbar");
+    const menuBtn = document.querySelector(".menu-btn");
+    const cancelBtn = document.querySelector(".cancel-btn");
+    menuBtn.onclick = () => {
+      navbar.classList.add("show");
+      menuBtn.classList.add("hide");
+      body.classList.add("disabled");
+    }
+    cancelBtn.onclick = () => {
+      body.classList.remove("disabled");
+      navbar.classList.remove("show");
+      menuBtn.classList.remove("hide");
+    }
+    window.onscroll = () => {
+      this.scrollY > 20 ? navbar.classList.add("sticky") : navbar.classList.remove("sticky");
+    }
+
+    var close = document.getElementsByClassName("closebtn");
+    var i;
+    for (i = 0; i < close.length; i++) {
+      close[i].onclick = function () {
+        var div = this.parentElement;
+        div.style.opacity = "0";
+        setTimeout(function () { div.style.display = "none"; }, 600);
+      }
+    }
+  </script>
+</body>
+
+</html>

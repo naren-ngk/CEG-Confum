@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/viewconfess.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16x16.png">
+    <link rel="manifest" href="/icon/site.webmanifest">
+    <title>Single Confession</title>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="content">
+            <div class="logo">
+                <i class="fa-solid fa-camera camera"></i>
+                <a href="/about"><span class="ceg">Ceg</span>Confum</a>
+            </div>
+            <ul class="menu-list">
+                <div class="icon cancel-btn">
+                    <i class="fas fa-times"></i>
+                </div>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/confession">Confession</a></li>
+                <li><a href="/memory">Memory</a></li>
+                <% if(!currentUser){ %>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/signup">Sign Up</a></li>
+                <% } else{ %>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/logout">Log Out</a></li>
+                <% } %>
+            </ul>
+            <div class="icon menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <% if(success && success.length){ %>
+    <div class="success">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        <%= success %>
+    </div>
+    <% } %>
+
+    <% if(error && error.length){ %>
+    <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        <%= error %>
+    </div>
+    <% } %>
+
+    <div class="item-con">
+        <div class="item">
+            <span class='tag'>
+                <%= confession.tag %> 
+            </span>
+            <figure>
+                <% for(img of confession.images){ %>
+                <img
+                    src="<%= img.url %>" />
+                <% } %>
+            </figure>
+            <div class="this-meta">
+                <a href="/confession/<%= confession._id %>">
+                    <h2><%= confession.confession %></h2>
+                </a>
+                <div class="b-con">
+                    <div class='flex'>
+                        <div class="bc-item author">
+                            <i class="bi bi-person"></i>
+                            <% if(confession.anonymous === 'No'){ %>
+                            <a href="/confession/<%= confession._id %>/author/<%= confession.author._id %>/profile">
+                                <span class='author-name'>@<%= confession.author.username %></span>
+                            </a>
+                            <% } %>
+                            <% if(confession.anonymous === 'Yes'){ %>
+                            <a href="/anonymous">
+                                <span class='author-name'>@anonymous</span>
+                            </a>
+                            <% } %>
+                        </div>
+                        <div class="bc-item put-stamp">
+                            <i class="bi bi-clock"></i>
+                            <span class='put-stamp'><%= confession.date %></span>
+                        </div>
+                    </div>
+                    <div class="bc-item share-post">
+                        <a href="/confession" title="Back"><i class="bi bi-arrow-left-circle-fill"></i></a>
+                        <% if(currentUser && confession.author._id.equals(currentUser._id)){ %>
+                        <a href="/confession/<%= confession._id %>/edit" title="Edit Confession"><i class="bi bi-pencil"></i></a>
+                        <form action="/confession/<%= confession._id %>?_method=DELETE" method="POST"
+                            style="display: inline;">
+                            <button style="background-color: rgba(255, 255, 255, 0); border: none" title="Delete Confession"><i class="bi bi-trash3"></i></button>
+                        </form>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <% if(currentUser){ %>
+    <div class="comment-form">
+        <form action="/confession/<%= confession._id %>/comment" method="POST" class="commform">
+
+            <label for="comment" class="comment-label">Enter a Comment</label>
+            <textarea name="reviews[text]" id="comment" cols="30" rows="2" placeholder="Enter a comment"
+                class="textarea-cont"></textarea>
+            <button>Post</button>
+        </form>
+    </div>
+    <% } %>
+
+    <div class="comment-display">
+        <h1>Comments</h1>
+        <% for(let review of confession.reviews){ %>
+        <div class="single-comment">
+            <p class="postedby">Posted by <%= review.author.username %></p>
+            <p class="comment"><%= review.text  %></p>
+            <% if(currentUser && review.author._id.equals(currentUser._id)){ %>
+            <form action="/confession/<%= confession._id %>/comment/<%= review._id %>?_method=DELETE" method="POST">
+                <button class="delete-btn delete-comment">Delete Comment</button>
+            </form>
+            <% } %>
+        </div>
+        <% } %>
+        <% if(currentUser){ %>
+        <button class="delete-btn" style="margin-top: 15px;" id="newcomment">New Comment</button>
+        <% } %>
+    </div>
+
+    <div class="footer">
+        <div class="left-footer">
+            <p class="aboutf">About</p>
+            <p class="summary">CCM is a intra-college social media app which is developed by our very own students for
+                the
+                empowerment of senior-junior bonds and most importatly to kill time.</p>
+            <p class="creators">Creators</p>
+            <ul class="creators-name">
+                <li><a href="">Narendran</a></li>
+                <li><a href="">Padma sharan</a></li>
+                <li><a href="">Parithi</a></li>
+            </ul>
+        </div>
+        <div class="right-footer">
+            <p class="logof">
+                <i class="fa-solid fa-camera cameraf"></i>
+                <span class="ceg">CEG</span> Confum
+            </p>
+            <p><b>Follow us on</b></p>
+            <p class="social">
+                <a href="">Facebook</a>.<a href="">Instagram</a>.<a href="">Twitter</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const comment = document.querySelector('#newcomment');
+        const body = document.querySelector("body");
+        const navbar = document.querySelector(".navbar");
+        const menuBtn = document.querySelector(".menu-btn");
+        const cancelBtn = document.querySelector(".cancel-btn");
+        menuBtn.onclick = () => {
+            navbar.classList.add("show");
+            menuBtn.classList.add("hide");
+            body.classList.add("disabled");
+        }
+        cancelBtn.onclick = () => {
+            body.classList.remove("disabled");
+            navbar.classList.remove("show");
+            menuBtn.classList.remove("hide");
+        }
+        comment.onclick = () => {
+            document.querySelector('.commform').style.display = 'block';
+            document.querySelector('.comment-form').style.display = 'flex'
+        }
+        window.onscroll = () => {
+            this.scrollY > 20 ? navbar.classList.add("sticky") : navbar.classList.remove("sticky");
+        }
+
+        var close = document.getElementsByClassName("closebtn");
+        var i;
+        for (i = 0; i < close.length; i++) {
+            close[i].onclick = function () {
+                var div = this.parentElement;
+                div.style.opacity = "0";
+                setTimeout(function () { div.style.display = "none"; }, 600);
+            }
+        }
+    </script>
+</body>
+
+</html>

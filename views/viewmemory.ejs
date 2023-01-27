@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/stars.css">
+    <script src="/JS/bootstrap.min.js"></script>
+    <script src="/JS/jquery.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css' rel='stylesheet' />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16x16.png">
+    <link rel="manifest" href="/icon/site.webmanifest">
+    <title>Memory</title>
+    <style>
+        body {
+            background: url('../images/viewmemorybg.jpg') top/cover no-repeat;
+        }
+
+        .success {
+            opacity: 1;
+            transition: opacity 0.45s;
+            background-color: rgba(167, 250, 0, 0.746);
+            width: 700px;
+            padding: 20px;
+            box-sizing: border-box;
+            color: white;
+        }
+
+        .alert {
+            opacity: 1;
+            transition: opacity 0.45s;
+            width: 700px;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #f3392cc7;
+            color: white;
+        }
+
+        .closebtn {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 22px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .closebtn:hover {
+            color: black;
+        }
+
+        .image-cs {
+            height: 390px;
+            max-height: 390px;
+            object-fit: cover;
+        }
+
+        .link1{
+            color: rgb(136, 136, 136);
+            text-decoration: none;
+        }
+
+        .link1:hover{
+            color: rgb(136, 136, 136);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid px-0" style="overflow: hidden;">
+        <div class="row mb-5">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 py-2">
+                <a class="navbar-brand" href="/about" style="font-size: 35px;">
+                    <strong><i class="fa-solid fa-camera camera"></i><span class="text-warning"> CEG</span>
+                        Confum</strong></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav ms-auto" style="font-size: 22px">
+                        <a class="nav-item nav-link" href="/home">Home</a>
+                        <a class="nav-item nav-link" href="/confession">Confession</a>
+                        <a class="nav-item nav-link" href="/memory">Memory</a>
+                        <% if(!currentUser){ %>
+                        <a class="nav-item nav-link" href="/signup">Sign Up</a>
+                        <a class="nav-item nav-link" href="/login">Login</a>
+                        <% } else { %>
+                        <a class="nav-item nav-link" href="/profile">Profile</a>
+                        <a class="nav-item nav-link" href="/logout">Log Out</a>
+                        <% } %>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <% if(success && success.length){ %>
+        <div class="row mb-4 offset-md-3">
+            <div class="success col-6">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <%= success %>
+            </div>
+        </div>
+        <% } %>
+
+        <% if(error && error.length){ %>
+        <div class="row mb-4 offset-md-3">
+            <div class="alert col-6">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <%= error %>
+            </div>
+        </div>
+        <% } %>
+
+        <div class="row mb-4 offset-md-2">
+            <div class="col-9">
+                <div id="memoryCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <% data.memory.images.forEach((img,i) => { %>
+                        <div class="carousel-item  border border-dark border-5 rounded <%= i === 0 ? 'active' : '' %>" data-bs-interval="3000">
+                            <img src="<%= img.url %>" class="d-block w-100 image-cs" alt="image">
+                        </div>
+                        <% }) %>
+                    </div>
+                    <% if(data.memory.images.length > 1){ %>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#memoryCarousel"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#memoryCarousel"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+
+        <div class="row px-5">
+            <div class="col-6 my-auto">
+                <div id='map' style='width: 550px; height: 475px;'></div>
+            </div>
+            <div class="col-6 border rounded p-3 bg-light">
+                <div class="row border-3 border border-top-0 border-start-0 border-end-0 border-bottom-secondary">
+                    <p class="h4">
+                        <i class="fa-solid fa-location-dot text-danger"></i>
+                        <span><%= data.memory.place %></span><span class="ms-4"><i
+                                class="fa-solid fa-calendar-days text-info"></i> <%= data.memory.date %> </span>
+                    </p>
+                    <p class="h4 text-secondary">
+                        <small><i class="fa-solid fa-user"></i> Shared By
+                            @<a href="/memory/<%= data.memory._id %>/author/<%= data.memory.author._id %>/profile" class="link1"><%= data.memory.author.username %></a></small>
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label"></label>
+                        <textarea style="resize: none;" class="form-control" id="exampleFormControlTextarea1" rows="12"
+                            disabled><%= data.memory.description  %> </textarea>
+                    </div>
+                </div>
+                <div class="row d-block offset-md-2">
+                    <form action="/memory/<%= data.memory._id %>?_method=DELETE" method="POST"
+                        style="display: inline-block;">
+                        <% const url = returnUrl || '/memory' %>  
+                        <a href="<%= url %> " class="link-primary h5 me-3" style="text-decoration: none;">Back</a>
+                        <% if(currentUser && data.memory.author._id.equals(currentUser._id)){ %>
+                        <a href="/memory/<%= data.memory._id %>/edit" class="link-primary h5 me-3"
+                            style="text-decoration: none;">Edit Memory</a>
+                        <button class="link-primary h5 me-3 mb-0 px-0"
+                            style="text-decoration: none; border:none; background-color: white;">Delete
+                            Memory</button>
+                        <% } %>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <% if(currentUser){ %>
+        <div class="row offset-md-2 mt-4">
+            <div class="w-75 ml-6 border p-4 rounded bg-light new-comment" style="display: none;">
+                <form action="/memory/<%= data.memory._id %>/comment" method="POST" class="commform">
+                    <fieldset class="starability-checkmark" style="margin-bottom: 30px;">
+                        <legend style="font-size: 20px;">Memory Rating:</legend>
+                        <input type="radio" id="no-rate" class="input-no-rate" name="reviews[rating]" value="0"
+                            checked />
+                        <input type="radio" id="first-rate1" name="reviews[rating]" value="1" />
+                        <label for="first-rate1" title="Terrible">1 star</label>
+                        <input type="radio" id="first-rate2" name="reviews[rating]" value="2" />
+                        <label for="first-rate2" title="Not good">2 stars</label>
+                        <input type="radio" id="first-rate3" name="reviews[rating]" value="3" />
+                        <label for="first-rate3" title="Average">3 stars</label>
+                        <input type="radio" id="first-rate4" name="reviews[rating]" value="4" />
+                        <label for="first-rate4" title="Very good">4 stars</label>
+                        <input type="radio" id="first-rate5" name="reviews[rating]" value="5" />
+                        <label for="first-rate5" title="Amazing">5 stars</label>
+                    </fieldset>
+                    <label for="comment" class="form-label h3">Enter a Comment</label>
+                    <textarea style="resize: none;" name="reviews[text]" id="comment" cols="10" rows="3"
+                        placeholder="Enter a comment" class="form-control"></textarea>
+                    <button class="btn btn-primary mt-3 px-5">Post</button>
+                </form>
+            </div>
+        </div>
+        <% } %>
+        <div class="row offset-md-2 mt-4">
+            <div class="w-75 border bg-light p-4 rounded">
+                <h2
+                    class="border pb-3 border-3 border border-top-0  border-start-0 border-end-0 border-bottom-secondary ">
+                    Comments</h2>
+                <% for(let review of data.memory.reviews){ %>
+                <div class="border border-3 border border-top-0  border-start-0 border-end-0 border-bottom-secondary">
+                    <p class="mb-1 text-secondary">Posted by @<%= review.author.username %></p>
+                    <p class="starability-result mb-1" data-rating="<%= review.rating %>" style="margin-bottom: 7px;">
+                        Rated: <%= review.rating %> stars
+                    </p>
+                    <p class="mb-1"><%= review.text  %></p>
+                    <% if(currentUser && review.author._id.equals(currentUser._id)){ %>
+                    <form action="/memory/<%= memory._id %>/comment/<%= review._id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-danger btn-sm mb-2 px-1">Delete</button>
+                    </form>
+                    <% } %>
+                </div>
+                <% } %>
+                <% if(currentUser){ %>
+                <button class="btn btn-success" style="margin-top: 15px;" id="newcomment">New Comment</button>
+                <% } %>
+            </div>
+        </div>
+        <div class="container-fluid mt-5">
+            <div class="row p-4 bg-dark text-light text-center text-lg-start">
+                <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">
+                        <span class="text-warning"> CEG</span> Confessions & Memory</h5>
+
+                    <p>
+                        CCM is a intra-college social media app which is developed by our very own students for
+                        the
+                        empowerment of senior-junior bonds and most importatly to kill time.
+                    </p>
+                </div>
+                <div
+                    class="col-lg-6 col-md-12 mb-4 mb-md-0 border pb-3 border-3 border border-top-0  border-start-secondary border-end-0 border-bottom-0">
+                    <p class="h1 text-center">
+                        <i class="fa-solid fa-camera cameraf"></i>
+                        <span class="text-warning">CEG</span> Confum
+                    </p>
+                    <p class="text-center mt-3 mb-1"><b>Follow us on</b></p>
+                    <p class="text-center mt-0">
+                        <a class="text-light" href="">Facebook</a>.<a class="text-light" href="">Instagram</a>.<a
+                            class="text-light" href="">Twitter</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="text-center p-3 bg-secondary text-light">
+            © 2022 Copyright:
+            <a>CEG Confum</a>
+        </div>
+    </div>
+    <script>
+        const comment = document.querySelector('#newcomment');
+        comment.onclick = () => {
+            document.querySelector('.new-comment').style.display = 'block';
+        }
+
+        var close = document.getElementsByClassName("closebtn");
+        var i;
+        for (i = 0; i < close.length; i++) {
+            close[i].onclick = function () {
+                var div = this.parentElement;
+                div.style.opacity = "0";
+                setTimeout(function () { div.style.display = "none"; }, 600);
+            }
+        }
+    </script>
+    <script>
+        const token = '<%- process.env.MAPBOX_TOKEN %>';
+        const memory = <%- JSON.stringify(data.memory) %>;
+    </script>
+    <script src="/JS/displayMapbox.js"></script>
+</body>
+
+</html>

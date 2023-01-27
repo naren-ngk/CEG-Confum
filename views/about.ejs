@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="/css/about.css">
+    <title>About Us</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/icon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16x16.png">
+    <link rel="manifest" href="/icon/site.webmanifest">
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function () {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/62b8bac97b967b11799698d5/1g6gpj8ud';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="content">
+            <div class="logo">
+                <i class="fa-solid fa-camera camera"></i>
+                <a href="#"><span class="ceg">CEG</span> Confum</a>
+            </div>
+            <ul class="menu-list">
+                <div class="icon cancel-btn">
+                    <i class="fas fa-times"></i>
+                </div>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/confession">Confession</a></li>
+                <li><a href="/memory">Memory</a></li>
+                <% if(!currentUser){ %>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/signup">Sign Up</a></li>
+                <% } else{ %>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/logout">Log Out</a></li>
+                <% } %>
+            </ul>
+            <div class="icon menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <div class="bannerimg">
+        <div class="banner1"></div>
+        <div class="banner1-text">
+            <h2><span style="color: rgb(136,136,0); font-weight: 900;">CEG</span> Confessions & Memory</h2>
+            <p>CEG Confum, shortly CCM, is an entertaining social media application which is unique in its confession
+                posting section. You can be Batman or Ironman as you wish (metaphorically, of course!). Share your best
+                memory experience with us and view your peer's memory and create a plan for your next trip!</p>
+        </div>
+    </div>
+    <div style="margin-bottom: 100px;">
+        <h1 class="team">Meet the <span>Team!</span></h1>
+        <div class="container">
+            <div class="circles"></div>
+            <div class="details-container">
+                <div class="avatar">
+                    <img src="/images/naren.jpg" class="img-fluid img1" alt="">
+                </div>
+                <div class="about">
+                    <div class="name">
+                        <p class="p">Hello There!</p>
+                        <h1 class="h1">I'm Narendran</h1>
+                    </div>
+                    <div class="about-content">
+                        <p class="p">
+                            I have developed this application in NodeJS and its supportable framework Express. MongoDB
+                            which is highly recommended for NodeJS is the database I have used to achieve maximum
+                            effeciency. It is really satisfying to see a full working application which is created by
+                            your hard work!
+                        </p>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="skills-container">
+                <button class="button">Back-end Development</button>
+                <button class="button">Server-side Scripting</button>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="circles"></div>
+            <div class="details-container">
+                <div class="about1">
+                    <div class="name">
+                        <p class="p">Hello There!</p>
+                        <h1 class="h1" style="margin-bottom: 25px;">I'm Padmasharan</h1>
+                    </div>
+                    <div class="about-content">
+                        <p class="p" style="margin-right: 0;">
+                            I am always intrigued by the user friendly websites we use everyday. It is my desire to
+                            create an application with smooth UI. I have implemented all the skills in designing my
+                            first web application. Its a great experience!
+                        </p>
+                    </div>
+                </div>
+                <div class="avatar">
+                    <img src="/images/padmasharan.jpeg" class="img-fluid img1" alt="">
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="skills-container">
+                <button class="button">Front-end Designing</button>
+                <button class="button">Client-side Scripting</button>
+            </div>
+        </div>
+
+        <div class="container" style="height: 480px;">
+            <div class="circles"></div>
+            <div class="details-container">
+                <div class="avatar">
+                    <img src="/images/parithi.jpg" class="img-fluid img1" alt="" style="margin-top: 74px;">
+                </div>
+                <div class="about">
+                    <div class="name">
+                        <p class="p">Hello There!</p>
+                        <h1 class="h1">I'm Parithi</h1>
+                    </div>
+                    <div class="about-content">
+                        <p class="p">
+                            Web designing is always my passion. Its really a good time to design layout for my first web
+                            application. With my teammate Padmasharan, I am able to create this eye-catching layout and
+                            achieve responsiveness in our application.
+                            Which I am really proud of!
+                        </p>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="skills-container">
+                <button class="button">Front-end Designing</button>
+                <button class="button">Layout Designing</button>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        © 2022 Copyright: <b>CEG Confessions & Memory</b>
+    </div>
+    <script>
+        const body = document.querySelector("body");
+        const navbar = document.querySelector(".navbar");
+        const menuBtn = document.querySelector(".menu-btn");
+        const cancelBtn = document.querySelector(".cancel-btn");
+        menuBtn.onclick = () => {
+            navbar.classList.add("show");
+            menuBtn.classList.add("hide");
+            body.classList.add("disabled");
+        }
+        cancelBtn.onclick = () => {
+            body.classList.remove("disabled");
+            navbar.classList.remove("show");
+            menuBtn.classList.remove("hide");
+        }
+        window.onscroll = () => {
+            this.scrollY > 20 ? navbar.classList.add("sticky") : navbar.classList.remove("sticky");
+        }
+    </script>
+</body>
+
+</html>

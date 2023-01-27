@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CEG Confum</title>
+  <link rel="stylesheet" href="/css/homepage-style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/icon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16x16.png">
+  <link rel="manifest" href="/icon/site.webmanifest">
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="content">
+      <div class="logo">
+        <i class="fa-solid fa-camera camera"></i>
+        <a href="/about"><span class="ceg">Ceg</span>Confum</a>
+      </div>
+      <ul class="menu-list">
+        <div class="icon cancel-btn">
+          <i class="fas fa-times"></i>
+        </div>
+        <li><a href="/about">About</a></li>
+        <li><a href="/confession">Confession</a></li>
+        <li><a href="/memory">Memory</a></li>
+        <% if(!currentUser){ %>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/signup">Sign Up</a></li>
+        <% } else{ %>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/logout">Log Out</a></li>
+        <% } %>
+      </ul>
+      <div class="icon menu-btn">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </nav>
+
+  <% if(success && success.length){ %>
+  <div class="success">
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <%= success %>
+  </div>
+  <% } %>
+
+  <% if(error && error.length){ %>
+  <div class="alert">
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <%= error %>
+  </div>
+  <% } %>
+
+  <div class="banner"></div>
+  <div class="features">
+    <div class="features-container">
+      <div class="feature">
+        <div class="ficon-container">
+          <i class="fa-solid fa-square-pen pen-icon ficon"></i>
+        </div>
+        <p class="feature-para">Express your secrets, if you dare, to your peers. Let your unknown thought snippets be
+          posted on confession
+          page. Confess your light-hearted, awkward, dark, fluffy, funny, serious confessions here!
+        </p>
+        <div class="fe-link"><a href="/confession/new" class="confess-fbtn fbtn">Confess</a></div>
+      </div>
+      <div class="feature">
+        <div class="ficon-container">
+          <i class="fa-solid fa-route route-icon ficon"></i>
+        </div>
+        <p class="feature-para">Planning for a trip with your ever daring hostel mates and the "guys with forever cool
+          vibes"
+          day scholars? Write
+          your experience in the tourist place you visited and let it be known to your college through CegExperience!
+        </p>
+        <div class="fe-link"><a href="/memory/new" class="memo-fbtn fbtn">Memory</a></div>
+      </div>
+      <div class="feature">
+        <div class="ficon-container">
+          <i class="fa-brands fa-connectdevelop conn-icon ficon"></i>
+        </div>
+        <p class="feature-para">Connect with unknown students who have the same vibes as you with CEG Memories &
+          Confession. Create an account
+          and find your partner-in-crime! Confess now! Share your memories of the places you've ever visited!
+        </p>
+        <div class="fe-link"><a href="/signup" class="signup-fbtn fbtn">Sign Up</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="left-footer">
+      <p class="aboutf">About</p>
+      <p class="summary">CCM is a intra-college social media app which is developed by our very own students for the
+        empowerment of senior-junior bonds and most importatly to kill time.</p>
+      <p class="creators">Creators</p>
+      <ul class="creators-name">
+        <li><a href="">Narendran</a></li>
+        <li><a href="">Padma sharan</a></li>
+        <li><a href="">Parithi</a></li>
+      </ul>
+    </div>
+    <div class="right-footer">
+      <p class="logof">
+        <i class="fa-solid fa-camera cameraf"></i>
+        <span class="ceg">CEG</span> Confum
+      </p>
+      <p><b>Follow us on</b></p>
+      <p class="social">
+        <a href="">Facebook</a>.<a href="">Instagram</a>.<a href="">Twitter</a>
+      </p>
+    </div>
+  </div>
+  <script>
+    const body = document.querySelector("body");
+    const navbar = document.querySelector(".navbar");
+    const menuBtn = document.querySelector(".menu-btn");
+    const cancelBtn = document.querySelector(".cancel-btn");
+    menuBtn.onclick = () => {
+      navbar.classList.add("show");
+      menuBtn.classList.add("hide");
+      body.classList.add("disabled");
+    }
+    cancelBtn.onclick = () => {
+      body.classList.remove("disabled");
+      navbar.classList.remove("show");
+      menuBtn.classList.remove("hide");
+    }
+    window.onscroll = () => {
+      this.scrollY > 20 ? navbar.classList.add("sticky") : navbar.classList.remove("sticky");
+    }
+
+    var close = document.getElementsByClassName("closebtn");
+    var i;
+    for (i = 0; i < close.length; i++) {
+      close[i].onclick = function () {
+        var div = this.parentElement;
+        div.style.opacity = "0";
+        setTimeout(function () { div.style.display = "none"; }, 600);
+      }
+    }
+  </script>
+
+</body>
+
+</html>

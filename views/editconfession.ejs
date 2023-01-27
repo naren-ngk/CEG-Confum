@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/editconfession.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16x16.png">
+    <link rel="manifest" href="/icon/site.webmanifest">
+    <title>Edit Confession</title>
+    <style>
+        .backlink1 {
+            color: rgb(34, 53, 158);
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        .backlink1:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="content">
+            <div class="logo">
+                <i class="fa-solid fa-camera camera"></i>
+                <a href="/about"><span class="ceg">Ceg</span>Confum</a>
+            </div>
+            <ul class="menu-list">
+                <div class="icon cancel-btn">
+                    <i class="fas fa-times"></i>
+                </div>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/confession">Confession</a></li>
+                <li><a href="/memory">Memory</a></li>
+                <% if(!currentUser){ %>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/signup">Sign Up</a></li>
+                <% } else{ %>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/logout">Log Out</a></li>
+                <% } %>
+            </ul>
+            <div class="icon menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <div class="confession">
+        <form action="/confession/<%= confession._id %>?_method=PUT" method="POST" class="confessionform"
+            enctype="multipart/form-data">
+            <p class="identity">Do you want to hide your identity?</p>
+            <div class="wrapper">
+                <input type="radio" name="anonymous" id="option-1" value="Yes" <%= confession.anonymous === 'Yes' ? 'checked' : '' %>>
+                <input type="radio" name="anonymous" id="option-2" value="No" <%= confession.anonymous === 'No' ? 'checked' : '' %>>
+                <label for="option-1" class="option option-1">
+                    <div class="dot"></div>
+                    <span>Yes</span>
+                </label>
+                <label for="option-2" class="option option-2">
+                    <div class="dot"></div>
+                    <span>No</span>
+                </label>
+            </div>
+            <div class="label">
+                <label for="tag">What is your confession about?</label>
+            </div>
+            <div class="input">
+                <input type="text" name="tag" id="tag" placeholder="Enter the tag" value="<%= confession.tag %> ">
+            </div>
+            <div class="label">
+                <label for="myFile">Update the image if you want</label>
+            </div>
+            <div class="file-upload" style="display: block;">
+                <input class="file-upload__input" type="file" name="image" id="myFile">
+                <button class="file-upload__button" type="button">Choose File(s)</button>
+                <span class="file-upload__label"></span>
+            </div>
+            <div class="label">
+                <label for="newcon">Edit your Confession</label>
+            </div>
+            <div class="textarea-cont">
+                <textarea name="confession" id="newcon"
+                    placeholder="Enter your confession"><%= confession.confession %> </textarea>
+                <span class="valid-feed" style="color: tomato; font-size: 12px; display: block;"></span>
+            </div>
+            <div class="button">
+                <a href="/confession/<%= confession._id %>" class="backlink1">Back</a>
+                <button>Update</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="footer">
+        <div class="left-footer">
+            <p class="aboutf">About</p>
+            <p class="summary">CCM is a intra-college social media app which is developed by our very own students for
+                the
+                empowerment of senior-junior bonds and most importatly to kill time.</p>
+            <p class="creators">Creators</p>
+            <ul class="creators-name">
+                <li><a href="">Narendran</a></li>
+                <li><a href="">Padma sharan</a></li>
+                <li><a href="">Parithi</a></li>
+            </ul>
+        </div>
+        <div class="right-footer">
+            <p class="logof">
+                <i class="fa-solid fa-camera cameraf"></i>
+                <span class="ceg">CEG</span> Confum
+            </p>
+            <p><b>Follow us on</b></p>
+            <p class="social">
+                <a href="">Facebook</a>.<a href="">Instagram</a>.<a href="">Twitter</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const feed = document.querySelector('.valid-feed');
+        const textarea = document.querySelector('#newcon');
+        const form = document.querySelector('.confessionform');
+        const body = document.querySelector("body");
+        const navbar = document.querySelector(".navbar");
+        const menuBtn = document.querySelector(".menu-btn");
+        const cancelBtn = document.querySelector(".cancel-btn");
+        menuBtn.onclick = () => {
+            navbar.classList.add("show");
+            menuBtn.classList.add("hide");
+            body.classList.add("disabled");
+        }
+        form.addEventListener('submit', (e) => {
+            if (!textarea.value || textarea.value.length < 3) {
+                e.preventDefault();
+                textarea.style.border = '2px solid tomato';
+                feed.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Input must be atleast 3 characters long!'
+            }
+        })
+        cancelBtn.onclick = () => {
+            body.classList.remove("disabled");
+            navbar.classList.remove("show");
+            menuBtn.classList.remove("hide");
+        }
+        window.onscroll = () => {
+            this.scrollY > 20 ? navbar.classList.add("sticky") : navbar.classList.remove("sticky");
+        }
+        Array.prototype.forEach.call(
+            document.querySelectorAll(".file-upload__button"),
+            function (button) {
+                const hiddenInput = button.parentElement.querySelector(
+                    ".file-upload__input"
+                );
+                const label = button.parentElement.querySelector(".file-upload__label");
+                const defaultLabelText = "No file(s) selected";
+                label.textContent = defaultLabelText;
+                label.title = defaultLabelText;
+
+                button.addEventListener("click", function () {
+                    hiddenInput.click();
+                });
+
+                hiddenInput.addEventListener("change", function () {
+                    const filenameList = Array.prototype.map.call(hiddenInput.files, function (
+                        file
+                    ) {
+                        return file.name;
+                    });
+
+                    label.textContent = 'Your files are selected!';
+                    label.title = label.textContent;
+                });
+            }
+        );
+    </script>
+
+</body>
+
+</html>

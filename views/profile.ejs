@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/icon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16x16.png">
+  <link rel="manifest" href="/icon/site.webmanifest">
+  <link rel="stylesheet" href="/css/profile.css">
+  <title>My Profile</title>
+  <style>
+
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="content">
+      <div class="logo">
+        <i class="fa-solid fa-camera camera"></i>
+        <a href="/about"><span class="ceg">CEG</span> Confum</a>
+      </div>
+      <ul class="menu-list">
+        <div class="icon cancel-btn">
+          <i class="fas fa-times"></i>
+        </div>
+        <li><a href="/home">Home</a></li>
+        <li><a href="/confession">Confession</a></li>
+        <li><a href="/memory">Memory</a></li>
+        <li><a href="/logout">Log Out</a></li>
+      </ul>
+      <div class="icon menu-btn">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </nav>
+
+  <% const rand = Math.floor((Math.random() * 15) + 1) %>
+  <% const tag = userData.user.tag.toLowerCase() %>
+
+  <% if(success && success.length){ %>
+  <div class="success">
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <%= success %>
+  </div>
+  <% } %>
+
+  <% if(error && error.length){ %>
+  <div class="alert">
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <%= error %>
+  </div>
+  <% } %>
+
+  <figure class="snip1336">
+    <img src=<%= `/images/random/${rand}.jpg` %> alt="image" class="image-profile">
+    <figcaption>
+      <img src="/images/profile-icon.jpg" alt="profile-icon" class="profile" />
+      <h2 class="h2"><%= `${userData.user.firstname} ${userData.user.lastname}`%></h2>
+      <p style="color: rgb(97, 97, 255)"><%= userData.user.username %></p>
+      <p><%= userData.user.tag %> Tag, <%= userData.user.dept  %> </p>
+      <p>Date of Birth: <%= userData.user.dob %></p>
+      <p class="profile-description"><%= userData.user.description  %> </p>
+      <a href="/home">Home</a>
+      <a href="/profile/edit" style="margin-left: 20px;">Edit Profile</a>
+    </figcaption>
+  </figure>
+  <div class="memory-section">
+    <h3>Memories</h3>
+    <div class="main-container">
+      <% for(memory of memoryData.memories){ %>
+      <div class="container">
+        <img src="<%= memory.images[0].url %>" alt="image" class="image-mem">
+        <p class="mem-place">
+          <i class="fa-solid fa-location-dot"></i>
+          <%= memory.place %>
+        </p>
+        <p class="mem-des">
+          <i class="fa-solid fa-user"></i>
+          <a href="/memory/<%= memory._id %>/author/<%= memory.author._id %>/profile">@<%= userData.user.username %></a>
+        </p>
+        <p class="mem-date">
+          <i class="fa-solid fa-calendar-days"></i>
+          <%= memory.date %>
+        </p>
+        <p class="mem-links">
+          <a href="/memory/<%= memory._id %>">View Memory</a>
+          <% if(currentUser && memory.author._id.equals(currentUser._id)){ %>
+          <a href="/memory/<%= memory._id %>/edit">Edit Memory</a>
+          <% } %>
+        </p>
+      </div>
+      <% } %>
+    </div>
+  </div>
+  <div class="confession-section">
+    <h3>Confessions</h3>
+    <% for(confession of confessionData.confessions){ %>
+    <div class="item-con">
+      <div class="item">
+        <span class='tag'><%= confession.tag %> </span>
+        <figure>
+          <% for(img of confession.images){ %>
+          <img src="<%= img.url %>" />
+          <% } %>
+        </figure>
+        <div class="this-meta">
+          <a href="/confession/<%= confession._id %>">
+            <h2><%= confession.confession %></h2>
+          </a>
+          <div class="b-con">
+            <div class='flex'>
+              <div class="bc-item author">
+                <i class="bi bi-person"></i>
+                <% if(confession.anonymous === 'No'){ %>
+                <a href="/confession/<%= confession._id %>/author/<%= confession.author._id %>/profile">
+                  <span class='author-name'>@<%= userData.user.username %></span>
+                </a>
+                <% } %>
+                <% if(confession.anonymous === 'Yes'){ %>
+                <a href="/anonymous">
+                  <span class='author-name'>@anonymous</span>
+                </a>
+                <% } %>
+              </div>
+              <div class="bc-item put-stamp">
+                <i class="bi bi-clock"></i>
+                <span class='put-stamp'><%= confession.date %></span>
+              </div>
+            </div>
+            <% if(currentUser && confession.author._id.equals(currentUser._id)){ %>
+            <div class="bc-item share-post">
+              <a href="/confession/<%= confession._id %>/edit" title="Edit Confession"><i class="bi bi-pencil"></i></a>
+            </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% } %>
+  </div>
+
+  <div class="footer">
+    <div class="left-footer">
+      <p class="aboutf">About</p>
+      <p class="summary">CCM is a intra-college social media app which is developed by our very own students for
+        the
+        empowerment of senior-junior bonds and most importatly to kill time.</p>
+      <p class="creators">Creators</p>
+      <ul class="creators-name">
+        <li><a href="">Narendran</a></li>
+        <li><a href="">Padma sharan</a></li>
+        <li><a href="">Parithi</a></li>
+      </ul>
+    </div>
+    <div class="right-footer">
+      <p class="logof">
+        <i class="fa-solid fa-camera cameraf"></i>
+        <span class="ceg">CEG</span> Confum
+      </p>
+      <p><b>Follow us on</b></p>
+      <p class="social">
+        <a href="">Facebook</a>.<a href="">Instagram</a>.<a href="">Twitter</a>
+      </p>
+    </div>
+  </div>
+  <script>
+    const body = document.querySelector("body");
+    const navbar = document.querySelector(".navbar");
+    const menuBtn = document.querySelector(".menu-btn");
+    const cancelBtn = document.querySelector(".cancel-btn");
+    menuBtn.onclick = () => {
+      navbar.classList.add("show");
+      menuBtn.classList.add("hide");
+      body.classList.add("disabled");
+    }
+    cancelBtn.onclick = () => {
+      body.classList.remove("disabled");
+      navbar.classList.remove("show");
+      menuBtn.classList.remove("hide");
+    }
+    window.onscroll = () => {
+      this.scrollY > 20 ? navbar.classList.add("sticky") : navbar.classList.remove("sticky");
+    }
+
+    var close = document.getElementsByClassName("closebtn");
+    var i;
+    for (i = 0; i < close.length; i++) {
+      close[i].onclick = function () {
+        var div = this.parentElement;
+        div.style.opacity = "0";
+        setTimeout(function () { div.style.display = "none"; }, 600);
+      }
+    }
+  </script>
+</body>
+
+</html>
